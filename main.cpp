@@ -1,63 +1,61 @@
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
-const double PI = 3.141592;
-void triangulo();
-void cuadrado();
-void circulo();
+const int MAX = 40;
 
-int main()
+int lectura(string nombre[], float tareas[], float examenes[], float programas[])
 {
-    int opcion;
+    int neto = 1;
+    int op;
 
     do {
-        cout << "Areas disponibles" << endl;
-        cout << "1-. Triangulo" << endl;
-        cout << "2-. Cuadrado" << endl;
-        cout << "3-. Circulo" << endl;
-        cout << "4-. Salida del programa" << endl << endl;
-        cout << "Que opcion deseas?" << endl;
-        cin >> opcion;
-
-        switch(opcion) {
-            case 1: triangulo(); break;
-            case 2: cuadrado(); break;
-            case 3: circulo(); break;
-            case 4: continue;
-            default: cout << endl << "Solo numeros de 1 a 4" << endl << endl;
+        cout << "Ingrese el primer apellido del alumno"<< endl;
+        cin >> nombre[neto];
+        cout << "Ingrese la calificacion de las tareas" << endl;
+        cin >> tareas[neto];
+        cout << "Ingrese la calificacion de los programas" << endl;
+        cin >> programas[neto];
+        cout << "Ingrese la calificacion de los examenes" << endl;
+        cin >> examenes[neto];
+        cout << "Desea ingresar mas alumnos?" << endl;
+        cout << "1. Si. 2.No" << endl;
+        cin >> op;
+        if (op==1) {
+            neto++;
         }
+    } while (neto <= MAX && op==1);
 
-    } while (opcion!=4);
+    return neto;
 
+}
+
+void calificacion (float tareas[], float examenes[], float programas[], int neto, float cafi[])
+{
+    for (int I=1; I<=neto; I++) {
+        cafi[I]= 0.1*tareas[I] + 0.5*examenes[I] + 0.4*programas[I];
+
+    }
+}
+
+void muestra (string nombre[], float tareas[], float examenes[], float programas[], int neto, float cafi[])
+{
+
+    cout << "Nombre" << right << setw(15) << "Tareas" << right << setw(15) << "Examenes" << right << setw(15) << "Programas" << right << setw(15) << "Final" << endl;
+
+    for (int I=1; I<=neto; I++) {
+        cout << nombre[I] << right << setw(15) << tareas[I] << right << setw(15) << examenes[I] << right << setw(15) << programas[I] << right << setw(15) <<cafi[I] << endl;
+    }
+}
+
+ int main ()
+{
+	string nombre[MAX];
+	int neto;
+	float tareas[MAX], examenes [MAX], programas [MAX], cafi [MAX];
+    neto = lectura (nombre, tareas, examenes, programas);
+    calificacion (tareas, examenes, programas, neto, cafi);
+    muestra (nombre, tareas,examenes, programas, neto, cafi);
     return 0;
-}
-
-void triangulo() {
-    double base, altura;
-
-    cout << endl << "Ingrese la base" << endl;
-    cin >> base;
-    cout << "Ingresa la altura" << endl;
-    cin >> altura;
-
-    cout << "Area del triangulo = " << (base*altura)/2 << endl << endl;
-}
-
-void cuadrado() {
-    double lado;
-
-    cout << endl << "Ingrese el lado" << endl;
-    cin >> lado;
-
-    cout << "Area del cuadrado = " << lado*lado << endl << endl;
-}
-
-void circulo() {
-    double radio;
-
-    cout << endl << "Ingrese el radio" << endl;
-    cin >> radio;
-
-    cout << "Area del circulo = " << radio*radio*PI << endl << endl;
 }
